@@ -1,0 +1,57 @@
+{% extends 'MajesCoreBundle::layout.html.twig' %}
+
+{% block title %}MajesCore - Search{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+
+<div class="container-fluid main-content">
+
+    {{ include('MajesCoreBundle:common:breadcrumbs.html.twig') }}
+
+    <div class="page-title">
+        <h1>{% trans %}%pageTitle%{% endtrans %}</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-3">
+            <form action="{{ path('_search_filtered_search') }}" method="get" id="formFilter">
+                <div class="widget-container fluid-height">
+                    <div class="widget-content">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel">
+                                <div class="panel-heading">
+                                    <div class="panel-title">
+                                        <a class="accordion-toggle" data-parent="#accordion" data-toggle="collapse" href="#collapseType"><div class="caret pull-right"></div>Type</a>
+                                    </div>
+                                </div>
+                                <div class="panel-collapse collapse in" id="collapseType">
+                                    <div class="panel-body">
+                                    {% for facet in facets.tags.terms %}
+                                        <label class="checkbox"><input name="filters[{{ facet.term }}]" type="checkbox" value="">{{ facet.term }} ({{ facet.count }})</label>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel">
+                                <div class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <button class="btn btn-default pull-right" onclick="$('input[name=page]').val('1');
+                                                $('#formFilter').submit();"><i class="icon-search"></i>Filter</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Gallery with filtering and actions -->
+        {{ include('MajesSearchBundle:Search:ajax/list-results.html.twig') }}
+    </div>
+
+
+{% endblock %}

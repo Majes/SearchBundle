@@ -1,0 +1,7 @@
+parameters:
+#    majes_search.example.class: Majes\SearchBundle\Example
+
+services:
+#    majes_search.example:
+#        class: %majes_search.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

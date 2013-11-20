@@ -1,0 +1,13 @@
+{
+    "name": "majes/search-bundle",
+    "type": "symfony-bundle",
+    "description": "Majes framework search bundle",
+    "require": {
+        "php": ">=5.3.0",
+        "friendsofsymfony/elastica-bundle": "3.0.*@dev"
+    },
+    "autoload": {
+        "psr-0": { "Majes\\SearchBundle": "" }
+    },
+    "target-dir": "Majes/SearchBundle"
+}
