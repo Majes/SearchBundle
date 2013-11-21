@@ -5,23 +5,3 @@ services:
 #    majes_search.example:
 #        class: %majes_search.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]
-
-fos_elastica:
-    clients:
-        default: { host: localhost, port: 9200 }
-    indexes:
-        majesteel_back:
-            client: default
-            types:
-                users:
-                    mappings:
-                        username: { analyzer: snowball }
-                        email: { analyzer: snowball }
-                        firstname: { analyzer: snowball }
-                        lastname: { analyzer: snowball }
-                    persistence:
-                        driver: orm
-                        model: Majes\CoreBundle\Entity\User\User
-                        provider:
-                        listener:
-                        finder:
