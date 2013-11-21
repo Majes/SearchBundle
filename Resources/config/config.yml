@@ -1,22 +1,30 @@
 imports:
     - { resource: @MajesSearchBundle/Resources/config/services.yml }
 
-
-
-fos_elastica:
-    indexes:
-        majesteel_back:
-            client: default
-            types:
-                users:
-                    mappings:
-                        username: { analyzer: snowball }
-                        email: { analyzer: snowball }
-                        firstname: { analyzer: snowball }
-                        lastname: { analyzer: snowball }
-                    persistence:
-                        driver: orm
-                        model: Majes\CoreBundle\Entity\User\User
-                        provider:
-                        listener:
-                        finder:
+indexes:
+    majesteel_back:
+        client: default
+        finder: ~
+        types:
+            user:
+                mappings:
+                    username: { analyzer: snowball }
+                    email: { analyzer: snowball }
+                    firstname: { analyzer: snowball }
+                    lastname: { analyzer: snowball }
+                    tags: { analyzer: keyword }
+                persistence:
+                    driver: orm
+                    model: Majes\CoreBundle\Entity\User\User
+                    provider: ~
+                    finder: ~
+            role:
+                mappings:
+                    name: { analyzer: snowball }
+                    role: { analyzer: snowball }
+                    tags: { analyzer: keyword }
+                persistence:
+                    driver: orm
+                    model: Majes\CoreBundle\Entity\User\Role
+                    provider: ~
+                    finder: ~
