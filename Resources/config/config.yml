@@ -1,0 +1,2 @@
+imports:
+    - { resource: @MajesSearchBundle/Resources/config/services.yml }
