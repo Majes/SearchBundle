@@ -5,9 +5,14 @@
         </div>
 
         <div>
-                   {# {% for result in results %}
-                        {{ dump(result) }}
-                    {% endfor %} #}   
+            {% for entity in results %}
+            {% set fields = entity.entityRender() %}
+                <div class="row">
+                    <div class="col-md-4">{{fields.title}}</div>
+                    <div class="col-md-4">{{fields.description}}</div>
+                    <div class="col-md-4">{{fields.url}}</div>
+                </div>
+            {% endfor %}    
         </div>
 
     </div>

@@ -1,7 +1,3 @@
 _search_search:
-    pattern: /search
+    pattern: /
     defaults: { _controller: MajesSearchBundle:Search:search }
-
-_search_filtered_search:
-    pattern: /search/filtered
-    defaults: { _controller: MajesSearchBundle:Search:filteredSearch }
