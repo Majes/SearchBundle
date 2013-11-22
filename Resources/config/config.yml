@@ -1,8 +1,6 @@
 imports:
     - { resource: @MajesSearchBundle/Resources/config/services.yml }
 
-
-
 fos_elastica:
     indexes:
         majesteel_back:
