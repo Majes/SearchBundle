@@ -5,6 +5,7 @@
         </div>
 
         <div>
+        {% if results|length > 0 %}
             {% for entity in results %}
             {% set fields = entity.entityRender() %}
                 <div class="row">
@@ -13,6 +14,13 @@
                     <div class="col-md-4">{{fields.url}}</div>
                 </div>
             {% endfor %}    
+        {% else %}
+        <div class="widget-content padded">
+          <div class="alert alert-warning">
+            {% trans %}You have no result to your request.{% endtrans %}
+          </div>
+        </div>
+        {% endif %}
         </div>
 
     </div>

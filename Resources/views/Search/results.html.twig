@@ -15,7 +15,7 @@
     </div>
 
     <div class="row">
-
+        {% if facets|length > 0 %}
         <div class="col-lg-3">
             <form action="{{ path('_search_search') }}" id="formFilter" method="post">
                 <input type="hidden" name="query" value="{{ query }}">
@@ -49,7 +49,7 @@
                 </div>
             </form>
         </div>
-
+        {% endif %}
         <!-- Gallery with filtering and actions -->
         {{ include('MajesSearchBundle:Search:ajax/list-results.html.twig') }}
     </div>
