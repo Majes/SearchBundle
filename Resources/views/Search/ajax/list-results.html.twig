@@ -1,26 +1,35 @@
 <div class="col-lg-9">
-    <div class="widget-container fluid-height clearfix">
+    <div class="well selected-filters">
         <div class="heading">
-            <i class="icon-search"></i> {% trans %}Results{% endtrans %}
+            <i class="icon-search"></i> {{ results|length }} {% trans %}results{% endtrans %}
         </div>
+    </div>
+
+    <div class="widget-container fluid-height clearfix">
+        
 
         <div>
+        <div class="widget-content padded">
         {% if results|length > 0 %}
             {% for entity in results %}
             {% set fields = entity.entityRender() %}
                 <div class="row">
-                    <div class="col-md-4">{{fields.title}}</div>
+                    <div class="col-md-4">
+                        <div class="label label-default">{{entity.tags}}</div> {{fields.title}}
+                    </div>
                     <div class="col-md-4">{{fields.description}}</div>
-                    <div class="col-md-4">{{fields.url}}</div>
+                    <div class="col-md-4">
+                        {% if fields.url is not empty %}<a class="btn btn-xs btn-info pull-right" href="{{ path(fields.url.route, fields.url.params) }}">{% trans %}More info{% endtrans %}</a>{% endif %}
+                    </div>
                 </div>
             {% endfor %}    
         {% else %}
-        <div class="widget-content padded">
-          <div class="alert alert-warning">
-            {% trans %}You have no result to your request.{% endtrans %}
-          </div>
-        </div>
+            <div class="alert alert-warning">
+                {% trans %}You have no result to your request.{% endtrans %}
+            </div>
+        
         {% endif %}
+        </div>
         </div>
 
     </div>

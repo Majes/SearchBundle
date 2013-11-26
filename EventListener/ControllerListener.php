@@ -64,7 +64,7 @@ class ControllerListener
             $elasticaSearch = $index->search($elasticaQuery);
             $data = $elasticaSearch->getResponse()->getData();
 
-            if($data['status'] == 'down'){
+            if(isset($data['status']) && $data['status'] == 'down'){
                 $notification = $this->_container->get('majes.notification');
 
                 $notification->set(array('_source' => 'search'));
