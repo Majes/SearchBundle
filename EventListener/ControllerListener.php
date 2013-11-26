@@ -64,11 +64,11 @@ class ControllerListener
             $elasticaSearch = $index->search($elasticaQuery);
             $data = $elasticaSearch->getResponse()->getData();
 
-            if(isset($data['status']) && $data['status'] == 'down'){
-                $notification = $this->_container->get('majes.notification');
+            $notification = $this->_container->get('majes.notification');
 
-                $notification->set(array('_source' => 'search'));
-                $notification->reinit();
+            $notification->set(array('_source' => 'search'));
+            $notification->reinit();
+            if(isset($data['status']) && $data['status'] == 'down'){
                 
                 $notification->add('notices', array('status' => 'danger', 'title' => 'Elasticasearch is down', 'url' => 'http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup.html', 'target' => '_blank'));
             
