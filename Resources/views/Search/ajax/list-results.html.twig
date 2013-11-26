@@ -1,7 +1,7 @@
 <div class="col-lg-9">
     <div class="well selected-filters">
         <div class="heading">
-            <i class="icon-search"></i> {{ results|length }} {% trans %}results{% endtrans %}
+            <i class="icon-search"></i> {% set count = results|length %} {% transchoice count %}{0} There is no result|{1} There is 1 result|]1,Inf] There are %count% results{% endtranschoice %}
         </div>
     </div>
 
