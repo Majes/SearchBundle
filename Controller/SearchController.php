@@ -18,13 +18,16 @@ use Pagerfanta\Pagerfanta;
 
 class SearchController extends Controller implements SystemController {
 
+    private $_nbresult = 2;
+
     public function searchAction() {
         $request = $this->getRequest();
         $query = $request->get('query', '*');
+        $page_num = $request->get('page_num', 1);
         $filters = $request->get('filters', null);
         
         $routeName = $request->get('_route');
-
+    
         if($routeName == '_search_admin'){
             $index = $this->container->get('fos_elastica.index.majesteel_back');
             $finder = $this->container->get('fos_elastica.finder.majesteel_back');
@@ -43,9 +46,9 @@ class SearchController extends Controller implements SystemController {
         $elasticaQuery->setQuery($elasticaQueryString);
 
         // Pagination
-        $elasticaQuery->setFrom(0);    // Where to start?
-        $elasticaQuery->setLimit(50);   // How many?
-        
+        $elasticaQuery->setFrom(($page_num-1) * $this->_nbresult);    // Where to start?
+        $elasticaQuery->setLimit($this->_nbresult);   // How many?
+
         // Define a new facet.
         $elasticaFacet = new \Elastica\Facet\Terms('tags');
         $elasticaFacet->setField('tags');
@@ -56,7 +59,8 @@ class SearchController extends Controller implements SystemController {
         $elasticaQuery->addFacet($elasticaFacet);
 
         // Search and get facets from elasticaResults
-        $elasticaFacets = $index->search($elasticaQuery)->getFacets();
+        $elasticaSearch = $index->search($elasticaQuery);
+        $elasticaFacets = $elasticaSearch->getFacets();
 
         // Add filters
         if (!is_null($filters)) {
@@ -73,7 +77,10 @@ class SearchController extends Controller implements SystemController {
         }
 
         //Search on the finder.
-        $elasticaResultSet = $finder->find($elasticaQuery);
+        $elasticaResultSet = $finder->findHybrid($elasticaQuery);
+        $data = $elasticaSearch->getResponse()->getData();
+        $total = $data['hits']['total'];
+        $page_count = ceil($total / $this->_nbresult);
 
         if($routeName == '_search_admin')
             return $this->render('MajesSearchBundle:Search:results.html.twig', array(
@@ -81,6 +88,9 @@ class SearchController extends Controller implements SystemController {
                     'facets' => $elasticaFacets,
                     'query' => $query,
                     'filters' => $filters,
+                    'page_num' => $page_num,
+                    'total' => $total,
+                    'page_count' => $page_count,
                     'pageTitle' => 'Search'));
         else{
             if($this->get('templating')->exists('MajesTeelBundle:Search:results.html.twig'))
@@ -93,6 +103,9 @@ class SearchController extends Controller implements SystemController {
                     'facets' => $elasticaFacets,
                     'query' => $query,
                     'filters' => $filters,
+                    'page_num' => $page_num,
+                    'total' => $total,
+                    'page_count' => $page_count,
                     'pageTitle' => 'Search'));
         }
 
