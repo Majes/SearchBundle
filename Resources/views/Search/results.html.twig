@@ -17,7 +17,7 @@
     <div class="row">
         {% if facets|length > 0 %}
         <div class="col-lg-3">
-            <form action="{{ path('_search_search') }}" id="formFilter" method="post">
+            <form action="{{ path('_search_admin') }}" id="formFilter" method="post">
                 <input type="hidden" name="query" value="{{ query }}">
                 <div class="widget-container fluid-height">
                     <div class="widget-content">
@@ -31,7 +31,7 @@
                                 <div class="panel-collapse collapse in" id="collapseType">
                                     <div class="panel-body">
                                     {% for facet in facets.tags.terms %}
-                                        <label class="checkbox"><input name="filters[{{ facet.term }}]" type="checkbox" value="" {% if facet.term in filters|keys %}checked="checked" {% endif %}>{{ facet.term }} ({{ facet.count }})</label>
+                                        <label class="checkbox"><input name="filters[]" type="checkbox" value="{{ facet.term }}" {% if facet.term in filters %}checked="checked" {% endif %}>{{ facet.term }} ({{ facet.count }})</label>
                                     {% endfor %}
                                     </div>
                                 </div>

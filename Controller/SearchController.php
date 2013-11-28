@@ -65,7 +65,7 @@ class SearchController extends Controller implements SystemController {
         // Add filters
         if (!is_null($filters)) {
             $elasticaFilterOr = new \Elastica\Filter\BoolOr();
-            foreach ($filters as $filterName => $filter) {
+            foreach ($filters as $filterKey => $filterName) {
                 $elasticaFilter = new \Elastica\Filter\Term();
                 $elasticaFilter->setTerm('tags', $filterName);
 
