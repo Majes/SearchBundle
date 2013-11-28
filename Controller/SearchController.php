@@ -22,9 +22,16 @@ class SearchController extends Controller implements SystemController {
         $request = $this->getRequest();
         $query = $request->get('query', '*');
         $filters = $request->get('filters', null);
+        
+        $routeName = $request->get('_route');
 
-        $index = $this->container->get('fos_elastica.index.majesteel_back');
-        $finder = $this->container->get('fos_elastica.finder.majesteel_back');
+        if($routeName == '_search_admin'){
+            $index = $this->container->get('fos_elastica.index.majesteel_back');
+            $finder = $this->container->get('fos_elastica.finder.majesteel_back');
+        }else{
+            $index = $this->container->get('fos_elastica.index.majesteel_front');
+            $finder = $this->container->get('fos_elastica.finder.majesteel_front');
+        }
 
         // Define a Query. We want a string query.
         $elasticaQueryString = new \Elastica\Query\QueryString();
@@ -68,11 +75,26 @@ class SearchController extends Controller implements SystemController {
         //Search on the finder.
         $elasticaResultSet = $finder->find($elasticaQuery);
 
-        return $this->render('MajesSearchBundle:Search:results.html.twig', array(
+        if($routeName == '_search_admin')
+            return $this->render('MajesSearchBundle:Search:results.html.twig', array(
                     'results' => $elasticaResultSet,
                     'facets' => $elasticaFacets,
                     'query' => $query,
                     'filters' => $filters,
                     'pageTitle' => 'Search'));
+        else{
+            if($this->get('templating')->exists('MajesTeelBundle:Search:results.html.twig'))
+                $template_twig = 'MajesTeelBundle:Search:results.html.twig';
+            else
+                $template_twig = 'MajesSearchBundle:Search:results.html.twig';
+            
+            return $this->render($template_twig, array(
+                    'results' => $elasticaResultSet,
+                    'facets' => $elasticaFacets,
+                    'query' => $query,
+                    'filters' => $filters,
+                    'pageTitle' => 'Search'));
+        }
+
     }
 }
