@@ -11,8 +11,8 @@
         <div>
         <div class="widget-content padded">
         {% if results|length > 0 %}
-            {% for entity in results %}
-            {% set fields = entity.entityRender() %}{% set entity = entity.getTransformed() %}
+            {% for entity in results %}{% set entity = entity.getTransformed() %}
+            {% set fields = entity.entityRender() %}
                 <div class="row">
                     <div class="col-md-4">
                         <div class="label label-default">{{entity.tags}}</div> {{fields.title}}
