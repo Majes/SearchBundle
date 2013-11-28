@@ -18,7 +18,7 @@ use Pagerfanta\Pagerfanta;
 
 class SearchController extends Controller implements SystemController {
 
-    private $_nbresult = 2;
+    private $_nbresult = 15;
 
     public function searchAction() {
         $request = $this->getRequest();
@@ -78,6 +78,7 @@ class SearchController extends Controller implements SystemController {
 
         //Search on the finder.
         $elasticaResultSet = $finder->findHybrid($elasticaQuery);
+
         $data = $elasticaSearch->getResponse()->getData();
         $total = $data['hits']['total'];
         $page_count = ceil($total / $this->_nbresult);
