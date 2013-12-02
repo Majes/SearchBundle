@@ -19,11 +19,12 @@ use Pagerfanta\Pagerfanta;
 class ControllerListener
 {
 
-    private $_container;
+    private $_notification;
 
-    public function __construct(Container $container)
+    public function __construct(\Majes\CoreBundle\Services\Notification $notification, $index = null)
     {
-        $this->_container = $container;
+        $this->_notification = $notification;
+        $this->_index = $index;
     }
 
     public function onKernelController(FilterControllerEvent $event)
@@ -44,9 +45,7 @@ class ControllerListener
             $query = '*';
             $filters = null;
     
-            $index = $this->_container->get('fos_elastica.index.majesteel_back');
-            $finder = $this->_container->get('fos_elastica.finder.majesteel_back');
-    
+            
             // Define a Query. We want a string query.
             $elasticaQueryString = new \Elastica\Query\QueryString();
     
@@ -61,10 +60,10 @@ class ControllerListener
             $elasticaQuery->setLimit(1);   // How many?
                 
             // Search and get facets from elasticaResults
-            $elasticaSearch = $index->search($elasticaQuery);
+            $elasticaSearch = $this->_index->search($elasticaQuery);
             $data = $elasticaSearch->getResponse()->getData();
 
-            $notification = $this->_container->get('majes.notification');
+            $notification = $this->_notification;
 
             $notification->set(array('_source' => 'search'));
             $notification->reinit();

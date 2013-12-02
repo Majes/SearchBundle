@@ -4,7 +4,7 @@ parameters:
 services:
     demo.tokens.action_listener:
         class: Majes\SearchBundle\EventListener\ControllerListener
-        arguments: ["@service_container"]
+        arguments: ["@majes.notification", "@fos_elastica.index.majesteel_back"]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
