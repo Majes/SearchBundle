@@ -1,6 +1,3 @@
-parameters:
-    fos_elastica.client.class: Majes\SearchBundle\Elastica\ElasticaClient
-
 services:
     demo.tokens.action_listener:
         class: Majes\SearchBundle\EventListener\ControllerListener
