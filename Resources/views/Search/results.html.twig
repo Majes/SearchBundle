@@ -31,7 +31,7 @@
                                 <div class="panel-collapse collapse in" id="collapseType">
                                     <div class="panel-body">
                                     {% for facet in facets.tags.terms %}
-                                        <label class="checkbox"><input name="filters[]" type="checkbox" value="{{ facet.term }}" {% if facet.term in filters %}checked="checked" {% endif %}>{{ facet.term }} ({{ facet.count }})</label>
+                                        <label class="checkbox"><input name="filters[]" type="checkbox" value="{{ facet.term }}" {% if facet.term in filters %}checked="checked" {% endif %}><span>{{ facet.term }} ({{ facet.count }})</span></label>
                                     {% endfor %}
                                     </div>
                                 </div>
