@@ -5,6 +5,7 @@ namespace Majes\SearchBundle\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Majes\CoreBundle\Controller\SystemController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Elastica\Document;
@@ -20,14 +21,13 @@ class SearchController extends Controller implements SystemController {
 
     private $_nbresult = 15;
 
-    public function searchAction() {
-        $request = $this->getRequest();
+    public function searchAction(Request $request) {
         $query = $request->get('query', '*');
         $page_num = $request->get('page_num', 1);
         $filters = $request->get('filters', null);
-        
+
         $routeName = $request->get('_route');
-    
+
         if($routeName == '_search_admin'){
             $index = $this->container->get('fos_elastica.index.majesteel_back');
             $finder = $this->container->get('fos_elastica.finder.majesteel_back');
@@ -98,7 +98,7 @@ class SearchController extends Controller implements SystemController {
                 $template_twig = 'MajesTeelBundle:Search:results.html.twig';
             else
                 $template_twig = 'MajesSearchBundle:Search:results.html.twig';
-            
+
             return $this->render($template_twig, array(
                     'results' => $elasticaResultSet,
                     'facets' => $elasticaFacets,
